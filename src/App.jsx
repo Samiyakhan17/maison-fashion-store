@@ -57,6 +57,7 @@ function App() {
   });
 
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const closeButtonRef = useRef(null);
   const bagButtonRef = useRef(null);
   const wasCartOpenRef = useRef(false);
@@ -382,21 +383,99 @@ useEffect(() => {
 
                   <p>Shipping and taxes calculated at checkout.</p>
 
-                  <button
-                    className="checkout-button"
-                    onClick={() =>
-                      alert("Checkout will be implemented in a later step.")
-                    }
-                  >
-                    Continue to checkout
-                    <ArrowRight size={17} />
-                  </button>
+                  
+
+<button
+  className="checkout-button"
+onClick={() => {
+  setIsCartOpen(false);
+  setIsCheckoutOpen(true);
+}}
+>
+  Continue to checkout
+  <ArrowRight size={17} />
+</button>
+
+
                 </div>
               </>
             )}
           </aside>
         </div>
       )}
+      
+      {isCheckoutOpen && (
+        <div className="checkout-backdrop">
+          <section className="checkout-panel" aria-labelledby="checkout-title">
+            <div className="cart-header">
+              <h2 id="checkout-title">Checkout</h2>
+              <button
+                className="icon-button"
+                aria-label="Close checkout"
+                onClick={() => setIsCheckoutOpen(false)}
+              >
+                <X size={21} />
+              </button>
+            </div>
+
+            <div className="checkout-order-summary">
+              <h3>Order summary</h3>
+              {cart.map((item) => (
+                <p key={item.id}>
+                  {item.name} × {item.quantity} — ₹
+                  {(item.price * item.quantity).toLocaleString("en-IN")}
+                </p>
+              ))}
+              <p>
+                <strong>
+                  Total: ₹{cartTotal.toLocaleString("en-IN")}
+                </strong>
+              </p>
+            </div>
+
+            <form
+              className="checkout-form"
+              onSubmit={(event) => {
+                event.preventDefault();
+               alert(
+                     "Thank you! Your checkout details have been validated successfully. This is a demo checkout—no order has been placed and no payment has been processed."
+                   );
+              }}
+            >
+              <label>
+                Full name
+                <input name="name" type="text" autoComplete="name" required />
+              </label>
+
+              <label>
+                Email address
+                <input
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                />
+              </label>
+
+              <label>
+                Shipping address
+                <textarea
+                  name="address"
+                  autoComplete="street-address"
+                  rows={3}
+                  required
+                />
+              </label>
+
+              <button className="checkout-button" type="submit">
+                Submit checkout details
+                <ArrowRight size={17} />
+              </button>
+            </form>
+          </section>
+        </div>
+      )}
+
 
 
       <footer className="footer">
