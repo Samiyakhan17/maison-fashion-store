@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   ArrowRight,
   Search,
@@ -57,10 +57,59 @@ function App() {
   });
 
   const [isCartOpen, setIsCartOpen] = useState(false);
-
+  const closeButtonRef = useRef(null);
+  const bagButtonRef = useRef(null);
+  const wasCartOpenRef = useRef(false);
   useEffect(() => {
     localStorage.setItem("maison-cart", JSON.stringify(cart));
   }, [cart]);
+  
+useEffect(() => {
+  if (!isCartOpen) return;
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Escape") {
+      setIsCartOpen(false);
+    }
+  };
+
+  window.addEventListener("keydown", handleKeyDown);
+
+  return () => {
+    window.removeEventListener("keydown", handleKeyDown);
+  };
+}, [isCartOpen]);
+
+useEffect(() => {
+  if (!isCartOpen) return;
+
+  const previousOverflow = document.body.style.overflow;
+  document.body.style.overflow = "hidden";
+
+  return () => {
+    document.body.style.overflow = previousOverflow;
+  };
+}, [isCartOpen]);
+useEffect(() => {
+  if (isCartOpen) {
+    closeButtonRef.current?.focus();
+  }
+}, [isCartOpen]);
+
+useEffect(() => {
+  if (isCartOpen) {
+    wasCartOpenRef.current = true;
+    return;
+  }
+
+  if (wasCartOpenRef.current) {
+    bagButtonRef.current?.focus();
+    wasCartOpenRef.current = false;
+  }
+}, [isCartOpen]);
+
+
+
 
   const addToCart = (product) => {
     setCart((currentCart) => {
@@ -137,14 +186,15 @@ function App() {
             <Search size={20} />
           </button>
           
-          <button
+            <button
+              ref={bagButtonRef}
               className="icon-button bag-button"
-              aria-label={`Shopping bag, ${cartCount} items`}
-              onClick={() => setIsCartOpen(true)}
-           >
-               <ShoppingBag size={20} />
-               <span className="bag-count">{cartCount}</span>
-            </button>   {/* What this does: The number beside the bag will show the actual number of items, 
+               aria-label={`Shopping bag, ${cartCount} items`}
+                 onClick={() => setIsCartOpen(true)}
+              >
+              <ShoppingBag size={20} />
+                 <span className="bag-count">{cartCount}</span>
+              </button>   {/* What this does: The number beside the bag will show the actual number of items, 
             and clicking the bag will open the cart once we add its panel.  */}
 
         </div>
@@ -262,12 +312,13 @@ function App() {
             <div className="cart-header">
               <h2 id="cart-title">Your bag ({cartCount})</h2>
               <button
-                className="icon-button"
-                aria-label="Close cart"
-                onClick={() => setIsCartOpen(false)}
-              >
-                <X size={21} />
-              </button>
+                 ref={closeButtonRef}
+                  className="icon-button"
+                  aria-label="Close cart"
+                  onClick={() => setIsCartOpen(false)}
+                  >
+                  <X size={21} />
+                  </button>
             </div>
 
             {cart.length === 0 ? (
