@@ -58,7 +58,24 @@ function App() {
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+   const filteredProducts = products.filter((product) =>
+  product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  product.category.toLowerCase().includes(searchQuery.toLowerCase())
+   );
   const closeButtonRef = useRef(null);
+  const productSectionRef = useRef(null);
+ useEffect(() => {
+  if (isSearchOpen && searchQuery.trim()) {
+    requestAnimationFrame(() => {
+      productSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  }
+}, [isSearchOpen, searchQuery]);
   const bagButtonRef = useRef(null);
   const wasCartOpenRef = useRef(false);
   useEffect(() => {
@@ -183,10 +200,15 @@ useEffect(() => {
         </nav>
 
         <div className="nav-actions">
-          <button className="icon-button" aria-label="Search">
-            <Search size={20} />
-          </button>
           
+            <button
+              className="icon-button"
+               aria-label="Search"
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+               >
+              <Search size={20} />
+            </button>
+ 
             <button
               ref={bagButtonRef}
               className="icon-button bag-button"
@@ -199,6 +221,32 @@ useEffect(() => {
             and clicking the bag will open the cart once we add its panel.  */}
 
         </div>
+        
+{isSearchOpen && (
+  <div className="search-bar">
+    <Search size={18} />
+    <input
+      type="search"
+      placeholder="Search products..."
+      aria-label="Search products"
+      value={searchQuery}
+      onChange={(event) => setSearchQuery(event.target.value)}
+      autoFocus
+    />
+    <button
+      type="button"
+      className="icon-button"
+      aria-label="Close search"
+      onClick={() => {
+        setIsSearchOpen(false);
+        setSearchQuery("");
+      }}
+    >
+      <X size={20} />
+    </button>
+  </div>
+)}
+
       </header>
 
       <main>
@@ -251,8 +299,8 @@ useEffect(() => {
             </a>
           </div>
 
-          <div className="product-grid">
-            {products.map((product) => (
+          <div className="product-grid" ref={productSectionRef}>
+           {filteredProducts.map((product) => (
               <article className="product-card" key={product.id}>
                 <div className="product-image-wrap">
                   <img src={product.image} alt={product.name} />
@@ -271,6 +319,11 @@ useEffect(() => {
                 </p>
               </article>
             ))}
+            {filteredProducts.length === 0 && (
+    <p className="no-results">
+      No products found. Try another search.
+    </p>
+  )}
           </div>
         </section>
 
