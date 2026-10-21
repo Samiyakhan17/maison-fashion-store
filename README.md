@@ -1,16 +1,91 @@
-# React + Vite
+# Maison — Fashion Store
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive fashion e-commerce frontend built with React. Maison provides a clean shopping experience with product browsing, search, a shopping bag, and a demo checkout flow.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Product Browsing:** View fashion products with images, categories, names, and prices.
+- **Product Search:** Search products by name or category, with a message when no matches are found.
+- **Shopping Bag:** Add products, manage quantities, and remove items.
+- **Cart Persistence:** Shopping bag contents are saved in the browser using local storage.
+- **Demo Checkout:** Enter checkout details and view a confirmation message. No real order or payment is processed.
+- **Responsive Design:** Layout designed for desktop and mobile screens.
+- **Accessible Interactions:** Includes accessible labels and keyboard-friendly cart interactions.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- JavaScript (ES6+)
+- Vite
+- CSS
+- Browser Local Storage
+- Lucide React icons
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+
+Install [Node.js](https://nodejs.org/) and npm.
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Samiyakhan17/maison-fashion-store.git
+   ```
+
+2. Open the project folder:
+
+   ```bash
+   cd maison-fashion-store
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open the local URL displayed in your terminal.
+
+## 🏗️ Production Build
+
+To create a production build, run:
+
+```bash
+npm run build
+```
+
+## 🧪 Testing the Project
+
+Try these features in the browser:
+
+- Search for a product by name or category.
+- Check the no-results message for an unmatched search.
+- Add products to the shopping bag.
+- Update quantities and remove products.
+- Refresh the page to check cart persistence.
+- Complete the demo checkout form.
+
+## 📌 Project Scope
+
+Maison is a frontend portfolio project. Product interactions and checkout are demonstrated in the browser. It does not currently process real payments or place real orders.
+
+## 👩‍💻 Developer
+
+**Samiya Khan**
+
+- GitHub: [Samiyakhan17](https://github.com/Samiyakhan17)
+- Portfolio: [View Portfolio](https://samiya-portfolio-opal.vercel.app/)
+- LinkedIn: [Connect on LinkedIn](https://www.linkedin.com/in/samiya-khan-520244348/)
+
+---
+
+Built as a web development portfolio project.
